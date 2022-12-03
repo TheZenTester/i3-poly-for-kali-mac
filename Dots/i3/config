@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -30,6 +30,13 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+### Zentester Customized Lines - moved to end
+# VMWare
+# exec --no-startup-id vmware-user # -suid-wrapper
+
+# Restore desktop wallpaper
+exec --no-startup-id nitrogen --restore
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -44,14 +51,16 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+Control+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# start dmenu (a program launcher) - removed  flag
+# bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec zsh -c "export PATH=$PATH:/home/kali/.local/bin && rofi -show run"
+# A more modern dmenu replacement is rofi:
+# bindcode $mod+40 exec "rofi -modi drun,run -show drun"
+# There also is i3-dmenu-desktop which only displays applications shipping a
+# .desktop file. It is a wrapper around dmenu, so you need that installed.
+# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+j focus left
@@ -66,16 +75,16 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Control+j move left
+bindsym $mod+Control+k move down
+bindsym $mod+Control+l move up
+bindsym $mod+Control+semicolon move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# alternatively, you can use the cursor keys:n
+bindsym $mod+Control+Left move left
+bindsym $mod+Control+Down move down
+bindsym $mod+Control+Up move up
+bindsym $mod+Control+Right move right
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -106,15 +115,15 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Recon"
-set $ws2 "2: Browser"
-set $ws3 "3: Terminals"
-set $ws4 "4: Burp"
-set $ws5 "5: Dev"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9: Notes"
-set $ws10 "10: Music"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -129,23 +138,26 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Control+1 move container to workspace number $ws1
+bindsym $mod+Control+2 move container to workspace number $ws2
+bindsym $mod+Control+3 move container to workspace number $ws3
+bindsym $mod+Control+4 move container to workspace number $ws4
+bindsym $mod+Control+5 move container to workspace number $ws5
+bindsym $mod+Control+6 move container to workspace number $ws6
+bindsym $mod+Control+7 move container to workspace number $ws7
+bindsym $mod+Control+8 move container to workspace number $ws8
+bindsym $mod+Control+9 move container to workspace number $ws9
+bindsym $mod+Control+0 move container to workspace number $ws10
+
+# Rename workspace
+bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Control+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Control+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Control+z exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -182,17 +194,14 @@ bindsym $mod+r mode "resize"
 
 # i3-gaps 
 
-for_window [class="^.*"] border pixel 2
+# for_window [all] border pixel 2
 
-gaps inner 20
-gaps outer 10
+# gaps inner 20
+# gaps outer 10
 
-smart_gaps on
-smart_borders on
+# smart_gaps on
+# smart_borders on
 
-#background
-
-exec_always feh --bg-scale /root/Pictures/bg.jpg
 
 #compton 
 
@@ -200,7 +209,7 @@ exec --no-startup-id compton --config ~/.config/i3/compton.conf
 
 #layout
 
-exec_always setxkbmap -layout cz,us
+exec_always setxkbmap -layout us
 exec_always setxkbmap -option 'grp:alt_shift_toggle'
 
 #polybar 
@@ -213,15 +222,15 @@ exec_always --no-startup-id bash ~/.config/polybar/launch.sh
 
 #exec ~/Downloads/lotion/Lotion/lotion --no-sandbox
 
-exec --no-startup-id i3-msg 'workspace $ws9; exec ~/Downloads/lotion/Lotion/lotion --no-sandbox'
+# exec --no-startup-id i3-msg 'workspace $ws9; exec ~/Downloads/lotion/Lotion/lotion --no-sandbox'
 
-exec --no-startup-id i3-msg 'workspace $ws10; exec spotify'
+# exec --no-startup-id i3-msg 'workspace $ws10; exec spotify'
 
-exec --no-startup-id i3-msg 'workspace $ws2; exec firefox'
+# exec --no-startup-id i3-msg 'workspace $ws2; exec firefox'
 
-exec --no-startup-id i3-msg 'workspace $ws1; exec terminator'
+# exec --no-startup-id i3-msg 'workspace $ws1; exec terminator'
 
-exec --no-startup-id i3-msg 'workspace $ws10; exec xfce4-appfinder' 
+# exec --no-startup-id i3-msg 'workspace $ws10; exec xfce4-appfinder' 
 
 #Colors
 
@@ -230,3 +239,5 @@ client.focused #555555 #555555 #ffffff #2e9ef4     #edb200
 #Load gnome theme
 
 exec_always --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
+
+exec --no-startup-id vmware-user-suid-wrapper
