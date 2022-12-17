@@ -31,3 +31,11 @@ https://www.youtube.com/watch?v=j1I63wGcvU4
 https://www.youtube.com/watch?v=8-S0cWnLBKg
 
 https://www.youtube.com/watch?v=ARKIwOlazKI
+
+## Change screen resolution
+[This link](https://jaketrent.com/post/set-screen-resolution-i3/) explains how to use `xrandr` to change the screen resolution via the command line.  I added two entries to my `~/.zshrc` file to accomodate the two most common screen resolutions I use.  You will need to DYOR a bit to determine your values for `--mode`.
+
+```
+alias rezlaptop='xrandr --output Virtual1 --mode 1920x1200'
+alias rezwidescreen='xrandr --output Virtual1 --mode 3840x1600'
+```
